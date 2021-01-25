@@ -2,10 +2,14 @@
   <div>
     <base-btn :btn-type="`button`" @btn-click="accountClick">
       <base-img
-        :img-url="`${account.btntype === 'login' ? require() : require()}`"
-        :img-alt="`${account.btntype}アイコン`"
+        :img-url="`${
+          btnLabel === 'login'
+            ? require('assets/img/ui/logout.svg')
+            : require('assets/img/ui/login.svg')
+        }`"
+        :img-alt="`${btnLabel}アイコン`"
       />
-      {{ account.btntype }}
+      {{ btnLabel }}
     </base-btn>
   </div>
 </template>
@@ -21,7 +25,7 @@ export default {
     'base-img': BaseImg,
   },
   props: {
-    btnType: {
+    btnLabel: {
       type: String,
       default: '',
       require: true,
@@ -37,3 +41,22 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+::v-deep .base-btn--extend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  height: 30px;
+  width: 150px;
+  border: 1px solid cornflowerblue;
+  color: cornflowerblue;
+  border-radius: 15px;
+}
+
+::v-deep .base-btn--extend:hover {
+  background-color: cornflowerblue;
+  color: white;
+}
+</style>

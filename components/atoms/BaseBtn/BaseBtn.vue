@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button :type="btnType" class="base-btn" @click="btnClick">
+    <button :type="btnType" class="base-btn--extend" @click="btnClick">
       <!-- @slot ボタンラベル -->
       <slot />
     </button>
@@ -29,8 +29,6 @@ export default {
 button {
   margin: 0;
   padding: 0;
-  border: none;
-  outline: none;
   background: transparent;
   cursor: pointer;
 }

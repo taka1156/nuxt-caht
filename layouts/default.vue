@@ -1,55 +1,101 @@
 <template>
-  <div>
-    <Nuxt />
+  <div class="App">
+    <header>
+      <the-header-nav
+        :header-routes="headerRoutes"
+        :status="status"
+        :user-info="userInfo"
+      />
+    </header>
+    <div class="container">
+      <main>
+        <transition name="slide-in-up" mode="out-in">
+          <nuxt />
+        </transition>
+      </main>
+      <footer>
+        <the-footer-nav :footer-routes="footerRoutes" />
+      </footer>
+    </div>
   </div>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
+<script>
+import TheHeaderNav from '@/components/organisms/TheHeaderNav/TheHeaderNav';
+import TheFooterNav from '@/components/organisms/TheFooterNav/TheFooterNav';
+import { HEADER_ROUTES, FOOTER_ROUTES } from '@/constants/index.js';
+import { mapGetters } from 'vuex';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+export default {
+  components: {
+    'the-header-nav': TheHeaderNav,
+    'the-footer-nav': TheFooterNav,
+  },
+  data() {
+    return {
+      headerRoutes: HEADER_ROUTES,
+      footerRoutes: FOOTER_ROUTES,
+    };
+  },
+  computed: {
+    ...mapGetters('auth', ['status', 'userInfo']),
+  },
+};
+</script>
+
+<style scoped>
+/* css reset */
+header,
+footer {
+  padding: 0;
   margin: 0;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+/* css reset */
+.App {
+  text-align: center;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+.container {
+  margin: 100px auto 0;
 }
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+main {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0 auto;
 }
 
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+@media screen and (min-width: 768px) {
+  main {
+    width: 60vw;
+  }
+}
+
+.slide-in-up-enter {
+  opacity: 0;
+  transform: translate(0, 100px);
+}
+
+.slide-in-up-enter-to {
+  opacity: 1;
+}
+
+.slide-in-up-enter-active {
+  transition: all 1s 0s ease;
+}
+
+.slide-in-up-leave {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.slide-in-up-leave-to {
+  opacity: 0;
+  transform: translate(0, -100px);
+}
+
+.slide-in-up-leave-active {
+  transition: all 0.2s 0s ease;
 }
 </style>

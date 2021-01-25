@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <p classa="base-text">
-      <!-- @slot テキスト -->
-      <slot />
-    </p>
-  </div>
+  <p class="base-text--extend">
+    <!-- @slot テキスト -->
+    <slot />
+  </p>
 </template>
 
 <script>
@@ -12,10 +10,3 @@ export default {
   name: 'BaseText',
 };
 </script>
-
-<style scoped>
-p {
-  margin: 0;
-  padding: 0;
-}
-</style>

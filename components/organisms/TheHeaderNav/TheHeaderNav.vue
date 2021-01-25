@@ -1,76 +1,121 @@
 <template>
-  <div class="HeaderNavi">
-    <div>
-      <div>
-        <i v-if="path !== null" @click="jump(path)"> chevron_left </i>
+  <div class="the-header-nav">
+    <div class="the-header-nav__box">
+      <div class="the-header-nav__back">
+        <base-link v-if="currentPage.back !== ''" :route-to="currentPage.back">
+          <base-img
+            :img-url="require('assets/img/ui/left-arrow.svg')"
+            :img-alt="`戻る`"
+          />
+        </base-link>
       </div>
-      <h1>
-        <i class="material-icons">
-          {{ icon }}
-        </i>
-        {{ title }}
-      </h1>
-      <div>
-        <base-img
-          v-if="status !== false"
-          :img-url="user.photoURL"
-          :img-alt="`${user.name}ロゴ`"
-          @click="jump('/account')"
-        />
-        <button v-else class="btn btn-outline-white" @click="jump('/account')">
-          login
-        </button>
+      <div class="the-header-nav__heading">
+        <base-img :img-url="currentPage.img" :img-alt="currentPage.name" />
+        <base-heading1>
+          {{ currentPage.name }}
+        </base-heading1>
+      </div>
+      <div class="the-header-nav__account">
+        <base-link :route-to="`/account/`">
+          <base-img
+            v-if="status"
+            :img-url="userInfo.photoURL"
+            :img-alt="`${userInfo.displayName}さんのロゴ`"
+          />
+          <div v-else>login</div>
+        </base-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import BaseLink from '../../atoms/BaseLink/BaseLink';
+import BaseHeading1 from '../../atoms/BaseHeading1/BaseHeading1';
 import BaseImg from '../../atoms/BaseImg/BaseImg';
 
 export default {
   components: {
+    'base-link': BaseLink,
+    'base-heading1': BaseHeading1,
     'base-img': BaseImg,
   },
   props: {
-    path: {
-      type: String,
-      default: '',
-    },
-    icon: {
-      type: String,
-      default: '',
+    headerRoutes: {
+      type: Array,
       required: true,
     },
-    title: {
-      type: String,
-      default: '',
+    userInfo: {
+      type: Object,
+      required: true,
+    },
+    status: {
+      type: Boolean,
       required: true,
     },
   },
   computed: {
-    user() {
-      return this.$store.getters['auth/user'];
-    },
-    status() {
-      return this.$store.getters['auth/status'];
-    },
-  },
-  methods: {
-    jump(url) {
-      this.$router.push(url);
+    currentPage() {
+      return this.headerRoutes.find(route => route.to === this.$route.path);
     },
   },
 };
 </script>
 
 <style scoped>
-.material-icons {
-  font-size: 30px;
-  padding-top: 10px;
+::v-deep .base-img--extend {
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  margin: 0;
+  padding: 0;
 }
-.btn-outline-white {
-  color: white;
-  border: 1px solid white;
+
+::v-deep .base-heading1--extend {
+  margin: 0;
+  padding: 0;
+}
+
+.the-header-nav {
+  height: 10vh;
+  width: 100%;
+  z-index: 2;
+  position: fixed;
+  background-color: cornflowerblue;
+  top: 0;
+  left: 0;
+}
+
+.the-header-nav__box {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  margin: 2vh auto;
+  padding: 0;
+  justify-content: space-around;
+}
+
+.the-header-nav__back {
+  height: 50%;
+  width: 15%;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.the-header-nav__heading {
+  height: 50%;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.the-header-nav__account {
+  height: 50%;
+  width: 15%;
+  padding: 0;
+  margin: 0;
 }
 </style>

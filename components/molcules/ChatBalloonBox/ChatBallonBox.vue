@@ -4,7 +4,7 @@
       <div class="chat-left">
         <base-img :img-url="chat.img" :img-alt="`${chat.name}アイコン`" />
         <div class="chat-balloon">
-          <Nl2br tag="p" :text="chat.message"></Nl2br>
+          <nl-2br tag="p" :text="chat.message" />
         </div>
         <p class="m-0">発言者:{{ chat.name }}</p>
         <p class="m-0">{{ dateFormat(chat.date) }}</p>
@@ -14,18 +14,26 @@
 </template>
 
 <script>
+import Nl2br from 'vue-nl2br';
 import BaseImg from '../../atoms/BaseImg/BaseImg';
 
 export default {
   name: 'ChatBallonBox',
   components: {
+    'nl-2br': Nl2br,
     'base-img': BaseImg,
   },
   props: {
     chat: {
       type: Object,
-      default: () => {},
       required: true,
+    },
+  },
+  computed: {
+    dateFormat() {
+      return function (date) {
+        return new Date(date).toLocaleDateString('ja-JP');
+      };
     },
   },
 };

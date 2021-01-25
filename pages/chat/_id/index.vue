@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ChatMsgList from '@/components/molcules/ChatMsgList/ChatMsgList';
+import ChatMsgList from '@/components/molcules/ChatList/ChatList';
 
 export default {
   name: 'ChatId',
